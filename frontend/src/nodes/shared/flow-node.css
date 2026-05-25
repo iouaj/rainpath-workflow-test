@@ -1,0 +1,124 @@
+.flow-node {
+  min-width: 180px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.flow-node__badge {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.flow-node__title {
+  margin: 0 0 0.25rem;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.flow-node__detail {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.flow-node--action .flow-node__badge {
+  color: var(--accent);
+}
+
+.flow-node--timing {
+  border-color: #f59e0b66;
+}
+
+.flow-node--timing .flow-node__badge {
+  color: #d97706;
+}
+
+.flow-node__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+}
+
+.flow-node__field-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.flow-node__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.flow-node__input:focus {
+  outline: 2px solid var(--accent-border);
+  outline-offset: 1px;
+}
+
+.flow-node__input::-webkit-inner-spin-button {
+  opacity: 1;
+}
+
+.flow-node--trigger {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.flow-node--trigger .flow-node__badge {
+  color: var(--accent);
+}
+
+.flow-node--condition {
+  border-style: dashed;
+  min-width: 200px;
+}
+
+.flow-node--condition .flow-node__badge {
+  color: #0d9488;
+}
+
+.flow-node--end {
+  border-color: var(--border);
+  background: var(--code-bg);
+  min-width: 120px;
+  text-align: center;
+}
+
+.flow-node--end .flow-node__badge {
+  color: var(--text);
+}
+
+.flow-node__branch-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.flow-node__branch-labels span:first-child {
+  margin-left: -0.25rem;
+}
+
+.flow-node__branch-labels span:last-child {
+  margin-right: -0.25rem;
+}

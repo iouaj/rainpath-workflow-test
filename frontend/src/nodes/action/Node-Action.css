@@ -1,0 +1,51 @@
+/* Le conteneur du nœud */
+.action-node {
+    /* background: #ffffff; */
+    border: 2px solid #222222;
+    border-radius: 8px;
+    padding: 12px;
+    width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .action-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  /* Réinitialisation globale pour nos inputs de nœuds */
+  .action-title, 
+  .action-detail {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    cursor: text !important;
+    border: 1px dashed transparent;
+    background: transparent;
+    width: 100%;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  
+  /* Équivalent de ton ancien flow-node__title */
+  .action-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a1a1a;
+  }
+  
+  /* Équivalent de ton ancien flow-node__detail */
+  .action-detail {
+    font-weight: 400;
+    font-size: 11px;
+    color: #666666;
+  }
+  
+  /* Petit effet visuel quand on clique pour modifier le texte */
+  .action-title:focus,
+  .action-detail:focus {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+    border-radius: 4px;
+    padding: 2px 4px;
+  }

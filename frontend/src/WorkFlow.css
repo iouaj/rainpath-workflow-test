@@ -1,0 +1,35 @@
+.workflow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.workflow .react-flow {
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+}
+
+.workflow .react-flow__pane,
+.workflow .react-flow__viewport,
+.workflow .react-flow__renderer {
+  background: transparent !important;
+}
+
+.workflow .react-flow__background {
+  opacity: 0.35;
+}
+
+.workflow .react-flow__controls {
+  box-shadow: var(--shadow);
+}
+
+.workflow .react-flow__controls-button {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--text-h);
+}
+
+.workflow .react-flow__controls-button:hover {
+  background: var(--code-bg);
+}
