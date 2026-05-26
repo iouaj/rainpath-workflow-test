@@ -1,6 +1,6 @@
 import { Handle, Position, type Node } from '@xyflow/react';
 
-import '../shared/flow-node.css';
+import './flow-node.css';
 
 type EndNodeData = Record<string, never>;
 

@@ -7,6 +7,10 @@
   box-shadow: var(--shadow);
   text-align: left;
   font-size: 0.875rem;
+
+  max-width: 250px;
+
+  height: auto;
 }
 
 .flow-node__badge {
@@ -28,6 +32,19 @@
   margin: 0;
   color: var(--text);
   font-size: 0.8rem;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  max-width: 100%;
+  width: 100%;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
 }
 
 .flow-node--action .flow-node__badge {
@@ -121,4 +138,47 @@
 
 .flow-node__branch-labels span:last-child {
   margin-right: -0.25rem;
+}
+
+/* Le conteneur du nœud conditionnel */
+.flow-node--condition {
+  width: 250px;
+  background: #ffffff;
+  border: 2px solid #6366f1; /* Couleur violette pour le distinguer des actions */
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* Zone qui regroupe les deux labels du bas */
+.flow-node__outputs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Structure pour chaque option (Vrai / Faux) */
+.flow-node__output-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  position: relative;
+}
+
+.flow-node__output-label {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Couleurs des textes d'aide */
+.flow-node__output-wrapper--true {
+  color: #16a34a; /* Vert */
+}
+
+.flow-node__output-wrapper--false {
+  color: #dc2626; /* Rouge */
 }

@@ -18,12 +18,13 @@ import type {
   Connection,
 } from '@xyflow/react';
 
-import WorkflowToolbar from './components/WorkflowToolbar';
-import { nodeTypes } from './nodes';
-import { getInitialWorkflow } from './workflow/storage';
+import WorkflowToolbar from '@/components/WorkflowToolbar';
+import { nodeTypes } from '@/nodes';
+import { getInitialWorkflow } from '@/workflow/storage';
 
 import '@xyflow/react/dist/style.css';
 import './WorkFlow.css';
+import { NodeEditProvider, useNodeEdit } from '@/context/NodeEditContext';
 
 function WorkFlowCanvas() {
   const [nodes, setNodes] = useState<Node[]>(() => getInitialWorkflow().nodes);
@@ -41,6 +42,14 @@ function WorkFlowCanvas() {
     setEdges((eds) => addEdge(connection, eds));
   };
 
+  const { openEditModal } = useNodeEdit();  
+
+  const handleNodeContextMenu = (event: React.PointerEvent, node: any) => {
+    event.preventDefault();
+
+    openEditModal(node.id, node.data);
+  }
+
   return (
     <div className="workflow">
       <ReactFlow
@@ -48,6 +57,7 @@ function WorkFlowCanvas() {
         edges={edges}
         nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
+        onNodeContextMenu={handleNodeContextMenu}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         fitView
@@ -69,7 +79,9 @@ function WorkFlowCanvas() {
 function WorkFlow() {
   return (
     <ReactFlowProvider>
-      <WorkFlowCanvas />
+      <NodeEditProvider>
+        <WorkFlowCanvas />
+      </NodeEditProvider>
     </ReactFlowProvider>
   );
 }

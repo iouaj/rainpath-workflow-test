@@ -1,14 +1,12 @@
 import type { NodeTypes } from '@xyflow/react';
 
-import EmailNode from './action/EmailNode';
-import PostalNode from './action/PostalNode';
-import SmsNode from './action/SmsNode';
-import WhatsAppNode from './action/WhatsAppNode';
-import ActionResultNode from './condition/ActionResultNode';
-import HasClientDataNode from './condition/HasClientDataNode';
-import EndNode from './end/EndNode';
-import DelayNode from './timing/DelayNode';
-import ExamDoneNode from './trigger/ExamDoneNode';
+import ExamDoneNode from './ExamDoneNode';
+import EndNode from './EndNode';
+import DelayNode from './DelayNode';
+
+import type { NodeType } from '../types/nodes';
+import MessageNode from './MessageNode';
+import ConditionNode from './ConditonalNode';
 
 export type NodeCategory =
   | 'trigger'
@@ -19,10 +17,9 @@ export type NodeCategory =
   | 'end';
 
 export type NodeDefinition = {
-  type: string;
+  type: NodeType;
   label: string;
   description: string;
-  category: NodeCategory;
   defaultData: Record<string, unknown>;
 };
 
@@ -38,138 +35,62 @@ export const NODE_CATEGORIES: Record<
   end: { label: 'Fin', order: 5 },
 };
 
-export const Nodes = [
+export const Nodes : NodeDefinition[] = [
   {
-    type: 'examDoneTrigger',
-    label: 'Exam effectué',
-    description: 'Point de départ de tous les workflows',
-    category: 'trigger',
-    defaultData: {},
+    type: 'messageAction',
+    label: 'Message',
+    description: 'Envoyer un message',
+    defaultData: {
+      type: 'messageAction',
+      data: {
+        messageType: 'email',
+        content: "AAAAAAAAA"
+      }
+    }
   },
   {
-    type: 'sendEmailAction',
-    label: 'Email',
-    description: 'Envoyer un email',
-    category: 'action',
-    defaultData: { subject: '', recipient: '' },
+    type: 'timing',
+    label: 'Attendre',
+    description: "Attendre x jours",
+    defaultData: {
+      type: 'timing',
+      data: {
+        delay: 5
+      }
+    }
   },
   {
-    type: 'sendSmsAction',
-    label: 'SMS',
-    description: 'Envoyer un SMS',
-    category: 'action',
-    defaultData: { message: '', recipient: '' },
+    type: 'conditional',
+    label: 'Condition',
+    description: '',
+    defaultData : {
+      type: 'conditional',
+      data : {
+        conditionType: 'resource',
+        target: 'email'
+      }
+    }
   },
   {
-    type: 'sendWhatsAppAction',
-    label: 'WhatsApp',
-    description: 'Envoyer un message WhatsApp',
-    category: 'action',
-    defaultData: { message: '', recipient: '' },
-  },
-  {
-    type: 'sendPostalAction',
-    label: 'Courrier postal',
-    description: 'Envoyer un courrier postal',
-    category: 'action',
-    defaultData: { subject: '', address: '' },
-  },
-  {
-    type: 'waitDaysDelay',
-    label: 'Attendre X jours',
-    description: 'Pause le workflow pendant un nombre de jours',
-    category: 'timing',
-    defaultData: { days: 1 },
-  },
-  {
-    type: 'hasEmailDataCondition',
-    label: 'Client a un email',
-    description: 'Vérifie la présence d’un email',
-    category: 'condition-data',
-    defaultData: { field: 'email' },
-  },
-  {
-    type: 'hasPhoneDataCondition',
-    label: 'Client a un téléphone',
-    description: 'Vérifie la présence d’un numéro',
-    category: 'condition-data',
-    defaultData: { field: 'phone' },
-  },
-  {
-    type: 'hasWhatsAppDataCondition',
-    label: 'Client a WhatsApp',
-    description: 'Vérifie la présence d’un contact WhatsApp',
-    category: 'condition-data',
-    defaultData: { field: 'whatsapp' },
-  },
-  {
-    type: 'hasPostalAddressDataCondition',
-    label: 'Client a une adresse',
-    description: 'Vérifie la présence d’une adresse postale',
-    category: 'condition-data',
-    defaultData: { field: 'postalAddress' },
-  },
-  {
-    type: 'emailRejectedCondition',
-    label: 'Email rejeté',
-    description: 'L’email a-t-il été rejeté ?',
-    category: 'condition-action',
-    defaultData: { action: 'email', outcome: 'rejected' },
-  },
-  {
-    type: 'emailDeliveredCondition',
-    label: 'Email délivré',
-    description: 'L’email a-t-il été délivré ?',
-    category: 'condition-action',
-    defaultData: { action: 'email', outcome: 'delivered' },
-  },
-  {
-    type: 'smsRejectedCondition',
-    label: 'SMS rejeté',
-    description: 'Le SMS a-t-il été rejeté ?',
-    category: 'condition-action',
-    defaultData: { action: 'sms', outcome: 'rejected' },
-  },
-  {
-    type: 'whatsappRejectedCondition',
-    label: 'WhatsApp rejeté',
-    description: 'Le message WhatsApp a-t-il été rejeté ?',
-    category: 'condition-action',
-    defaultData: { action: 'whatsapp', outcome: 'rejected' },
-  },
-  {
-    type: 'postalRejectedCondition',
-    label: 'Courrier rejeté',
-    description: 'Le courrier a-t-il été rejeté ?',
-    category: 'condition-action',
-    defaultData: { action: 'postal', outcome: 'rejected' },
+    type: 'examDone',
+    label: 'Examen effectué',
+    description: "",
+    defaultData: {}
   },
   {
     type: 'endNode',
     label: 'Fin',
-    description: 'Marque la fin du workflow',
-    category: 'end',
-    defaultData: {},
-  },
-] as const satisfies readonly NodeDefinition[];
+    description: "",
+    defaultData: {}
+  }
+];
 
 export type CustomNodeType = (typeof Nodes)[number]['type'];
 
 export const nodeTypes = {
-  examDoneTrigger: ExamDoneNode,
-  sendEmailAction: EmailNode,
-  sendSmsAction: SmsNode,
-  sendWhatsAppAction: WhatsAppNode,
-  sendPostalAction: PostalNode,
-  waitDaysDelay: DelayNode,
-  hasEmailDataCondition: HasClientDataNode,
-  hasPhoneDataCondition: HasClientDataNode,
-  hasWhatsAppDataCondition: HasClientDataNode,
-  hasPostalAddressDataCondition: HasClientDataNode,
-  emailRejectedCondition: ActionResultNode,
-  emailDeliveredCondition: ActionResultNode,
-  smsRejectedCondition: ActionResultNode,
-  whatsappRejectedCondition: ActionResultNode,
-  postalRejectedCondition: ActionResultNode,
+  messageAction: MessageNode,
+  timing: DelayNode,
+  conditional: ConditionNode,
+  examDone: ExamDoneNode,
   endNode: EndNode,
 } satisfies NodeTypes;

@@ -32,34 +32,13 @@ export default function AddNodeMenu() {
   const dialogId = useId();
   const menuRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState<MenuStep>('category');
-  const [selectedCategory, setSelectedCategory] = useState<NodeCategory | null>(
-    null,
-  );
   const { setNodes, screenToFlowPosition } = useReactFlow();
-
-  const categories = useMemo(() => getSortedCategories(), []);
-
-  const nodesInCategory = useMemo(
-    () =>
-      selectedCategory
-        ? Nodes.filter((node) => node.category === selectedCategory)
-        : [],
-    [selectedCategory],
-  );
-
-  const resetMenu = () => {
-    setStep('category');
-    setSelectedCategory(null);
-  };
 
   const closeMenu = () => {
     setOpen(false);
-    resetMenu();
   };
 
   const openMenu = () => {
-    resetMenu();
     setOpen(true);
   };
 
@@ -87,21 +66,7 @@ export default function AddNodeMenu() {
     closeMenu();
   };
 
-  const selectCategory = (category: NodeCategory) => {
-    setSelectedCategory(category);
-    setStep('node');
-  };
-
-  const goBackToCategories = () => {
-    setStep('category');
-    setSelectedCategory(null);
-  };
-
-  const selectedCategoryLabel = selectedCategory
-    ? NODE_CATEGORIES[selectedCategory].label
-    : '';
-
-  useClickOutsideAndEscape(menuRef, closeMenu, open, step === 'node' ? goBackToCategories : undefined);
+  useClickOutsideAndEscape(menuRef, closeMenu, open);
 
   return (
     <div className="add-node" ref={menuRef}>
@@ -123,48 +88,9 @@ export default function AddNodeMenu() {
           role="dialog"
           aria-label="Ajouter un node au workflow"
         >
-          {step === 'category' ? (
             <>
-              <p className="add-node__heading">1. Choisir une catégorie</p>
-              <ul className="add-node__list add-node__list--categories">
-                {categories.map((category) => (
-                  <li key={category.id}>
-                    <button
-                      type="button"
-                      className="add-node__category"
-                      onClick={() => selectCategory(category.id)}
-                    >
-                      <span className="add-node__category-label">
-                        {category.label}
-                      </span>
-                      <span className="add-node__category-hint">
-                        {(() => {
-                          const count = Nodes.filter(
-                            (n) => n.category === category.id,
-                          ).length;
-                          return `${count} node${count > 1 ? 's' : ''}`;
-                        })()}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <>
-              <div className="add-node__step-header">
-                <button
-                  type="button"
-                  className="add-node__back"
-                  onClick={goBackToCategories}
-                >
-                  ← Catégories
-                </button>
-                <p className="add-node__heading">2. Choisir un node</p>
-                <p className="add-node__breadcrumb">{selectedCategoryLabel}</p>
-              </div>
               <ul className="add-node__list">
-                {nodesInCategory.map((node) => (
+                {Nodes.map((node) => (
                   <li key={node.type}>
                     <button
                       type="button"
@@ -182,7 +108,6 @@ export default function AddNodeMenu() {
                 ))}
               </ul>
             </>
-          )}
         </div>
       )}
     </div>

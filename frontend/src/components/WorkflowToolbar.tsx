@@ -1,20 +1,17 @@
 import { Panel, useReactFlow } from '@xyflow/react';
 import { useState } from 'react';
 
-import { clearStoredWorkflow, saveWorkflow } from '../workflow/storage';
+import { clearStoredWorkflow, saveWorkflow } from '@/workflow/storage';
 
 import AddNodeMenu from './AddNodeMenu';
 
 import './WorkflowToolbar.css';
-import { usePrompt } from '../context/PromptContext';
 
 type Feedback = { type: 'success' | 'error'; message: string } | null;
 
 export default function WorkflowToolbar() {
   const { getNodes, getEdges, setNodes, setEdges } = useReactFlow();
   const [feedback, setFeedback] = useState<Feedback>(null);
-
-  const { triggerPrompt } = usePrompt();
 
   const showFeedback = (type: 'success' | 'error', message: string) => {
       setFeedback({ type, message });
@@ -30,7 +27,6 @@ export default function WorkflowToolbar() {
       showFeedback('success', `Workflow ${name} sauvegardé`);
     }
 
-    triggerPrompt("Enregistrer le flow", "Saisissez le nom du flow", save);
   };
 
   const handleClear = () => {
