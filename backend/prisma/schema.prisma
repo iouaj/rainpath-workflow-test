@@ -8,7 +8,7 @@ datasource db {
   provider = "sqlite"
 }
 
-model Worflow {
+model Workflow {
   id        String  @id @default(uuid())
   name      String
 

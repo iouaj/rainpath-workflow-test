@@ -22,9 +22,9 @@ export const NodeEditProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [currentNodeId, setCurrentNodeId] = useState<string | null>(null);
   const [currentNodeData, setCurrentNodeData] = useState<NodeData | null>(null);
 
-  const [type, setType] = useState<NodeType | 'saveForm' | 'loadForm' | null>(null);
+  const [type, setType] = useState<NodeType | 'saveForm' | 'loadForm' | 'clearConfirm' | null>(null);
 
-  const [submitResolver, setSubmitResolver] = useState<((name : string | boolean) => void) | null>(null);
+  const [submitResolver, setSubmitResolver] = useState<((name : string | boolean | null) => void) | null>(null);
 
   // Fonction ouverture edit modal
   const openEditModal = (nodeId: string, currentData: NodeData) => {
@@ -94,8 +94,8 @@ export const NodeEditProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       {isOpen && type === 'messageAction' && (
         <MessageEditModal
             isOpen={isOpen}
-            nodeId={currentNodeId}
-            nodeData={currentNodeData}
+            nodeId={currentNodeId!}
+            nodeData={currentNodeData!}
             onClose={handleClose}
         />
       )}
@@ -103,8 +103,8 @@ export const NodeEditProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       {isOpen && type === 'timing' && (
         <DelayEditModal
             isOpen={isOpen}
-            nodeId={currentNodeId}
-            nodeData={currentNodeData}
+            nodeId={currentNodeId!}
+            nodeData={currentNodeData!}
             onClose={handleClose}
         />
       )}
@@ -112,8 +112,8 @@ export const NodeEditProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       {isOpen && type === 'conditional' && (
         <ConditionEditModal
             isOpen={isOpen}
-            nodeId={currentNodeId}
-            nodeData={currentNodeData}
+            nodeId={currentNodeId!}
+            nodeData={currentNodeData!}
             onClose={handleClose}
         />
       )}

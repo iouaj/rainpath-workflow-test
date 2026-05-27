@@ -8,11 +8,11 @@ export class WorkflowService {
     constructor(private readonly prisma: PrismaService) {}
 
     async getWorflows() {
-        return this.prisma.worflow.findMany();
+        return this.prisma.workflow.findMany();
     }
 
     async create(createWorkflowDto : CreateWorkflowDto) {
-        return this.prisma.worflow.create({
+        return this.prisma.workflow.create({
             data: {
                 name: createWorkflowDto.name,
                 nodes: createWorkflowDto.nodes,
@@ -23,13 +23,13 @@ export class WorkflowService {
     }
 
     async findOne(id: string) {
-        return this.prisma.worflow.findUnique({
+        return this.prisma.workflow.findUnique({
             where: { id },
         });
     }
 
     async update(id: string, updateWorkflowDto : UpdateWorkflowDto) { //Inutiliser
-        return this.prisma.worflow.update({
+        return this.prisma.workflow.update({
             where: { id },
             data: {
                 ...updateWorkflowDto

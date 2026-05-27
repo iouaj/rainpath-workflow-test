@@ -10,7 +10,7 @@ export class AppService {
   }
 
   async getHealth() {
-    const workflowCount = await this.prisma.worflow.count();
+    const workflowCount = await this.prisma.workflow.count();
     return {
       status: 'ok',
       database: 'connected',
