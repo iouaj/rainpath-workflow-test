@@ -1,23 +1,23 @@
-import type { MessageType } from "../../types/nodes";
+import type { MessageType } from '../../types/nodes';
 
 type Props = {
-    value: string;
-    onChange: (value : MessageType) => void;
-    styles: any;
-}
+  value: string;
+  onChange: (value: MessageType) => void;
+  className?: string;
+};
 
-export function MessageTypeSelect(data : Props) {
-    return (
-        <select
-            value={data.value}
-            onChange={(e) => data.onChange(e.target.value as MessageType)}
-            style={data.styles}
-        >
-            <option value="">-- Choisir un type de message--</option>
-            <option value="email">Email</option>
-            <option value="sms">SMS</option>
-            <option value="whatsapp">Whatsapp</option>
-            <option value="postal">Postal</option>
-        </select>
-    );
+export function MessageTypeSelect({ value, onChange, className }: Props) {
+  return (
+    <select
+      value={value}
+      onChange={(e) => onChange(e.target.value as MessageType)}
+      className={className}
+    >
+      <option value="">— Choisir un canal —</option>
+      <option value="email">✉️  Email</option>
+      <option value="sms">💬  SMS</option>
+      <option value="whatsapp">📱  WhatsApp</option>
+      <option value="postal">📮  Courrier postal</option>
+    </select>
+  );
 }

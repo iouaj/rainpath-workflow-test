@@ -1,0 +1,124 @@
+.add-node {
+  position: relative;
+}
+
+/* Bouton déclencheur — intégré dans la toolbar */
+.add-node__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid var(--accent-border);
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.12s, filter 0.12s;
+  white-space: nowrap;
+}
+
+.add-node__trigger:hover {
+  border-color: var(--accent);
+  filter: brightness(1.05);
+}
+
+/* Popover */
+.add-node__popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 100;
+  width: 280px;
+  max-height: min(70vh, 400px);
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  animation: popover-in 0.12s ease;
+}
+
+@keyframes popover-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.add-node__popover::-webkit-scrollbar {
+  width: 4px;
+}
+.add-node__popover::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.add-node__heading {
+  margin: 0 0 6px;
+  padding: 4px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.add-node__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.add-node__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.add-node__option:hover {
+  background: var(--code-bg);
+}
+
+.add-node__option-icon {
+  font-size: 16px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--bg-subtle, var(--code-bg));
+  flex-shrink: 0;
+}
+
+.add-node__option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.add-node__option-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-h);
+}
+
+.add-node__option-desc {
+  font-size: 0.75rem;
+  color: var(--text);
+}

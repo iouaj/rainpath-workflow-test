@@ -1,12 +1,17 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { NodeData, NodeType } from '../types/nodes';
-import { isDelayNodeData, isMessageNodeData } from '../utils/functions';
 import MessageEditModal from '../components/modal/MessageEditModal';
 import DelayEditModal from '../components/modal/DelayEditModal';
 import ConditionEditModal from '../components/modal/ConditionEditModal';
+import WorkflowFormModal from '@/components/modal/WorkflowFormModal';
+import LoadWorkflowModal from '@/components/modal/LoadWorkflowModal';
+import DeleteConfirmationModal from '@/components/modal/DeleteConfirmationModal';
 
 interface NodeEditContextType {
   openEditModal: (nodeId: string, currentData: NodeData) => void;
+  openSaveFormModal: () => Promise<string | null>;
+  openLoadForm: () => Promise<string | null>;
+  openClearConfirm: () => Promise<boolean>;
 }
 
 const NodeEditContext = createContext<NodeEditContextType | undefined>(undefined);
@@ -17,7 +22,9 @@ export const NodeEditProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [currentNodeId, setCurrentNodeId] = useState<string | null>(null);
   const [currentNodeData, setCurrentNodeData] = useState<NodeData | null>(null);
 
-  const [type, setType] = useState<NodeType | null>(null);
+  const [type, setType] = useState<NodeType | 'saveForm' | 'loadForm' | null>(null);
+
+  const [submitResolver, setSubmitResolver] = useState<((name : string | boolean) => void) | null>(null);
 
   // Fonction ouverture edit modal
   const openEditModal = (nodeId: string, currentData: NodeData) => {
@@ -30,13 +37,58 @@ export const NodeEditProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setIsOpen(true);
   };
 
+  const openSaveFormModal = () => {
+    setType('saveForm');
+    setIsOpen(true);
+
+    return new Promise<string | null>((resolve) => {
+      setSubmitResolver(() => resolve)
+    })
+  }
+
+  const openLoadForm = () => {
+    setType('loadForm');
+    setIsOpen(true);
+
+    return new Promise<string | null>((resolve) => {
+      setSubmitResolver(() => resolve);
+    })
+  }
+
+  const openClearConfirm = () => {
+    setType('clearConfirm');
+    setIsOpen(true);
+
+    return new Promise<boolean>((resolve) => {
+      setSubmitResolver(() => resolve);
+    })
+  }
+
+  const handleClearConfirm = (bool : boolean) => {
+    setIsOpen(false);
+    if (submitResolver) submitResolver(bool);
+    setSubmitResolver(null);
+  }
+
+  const handleConfirmSave = (name : string) => {
+    setIsOpen(false);
+    if (submitResolver) submitResolver(name);
+    setSubmitResolver(null);
+  }
+
+  const handleCloseSave = () => {
+    setIsOpen(false);
+    if (submitResolver) submitResolver(null);
+    setSubmitResolver(null);
+  }
+
   const handleClose = () => {
     setIsOpen(false);
     setCurrentNodeId(null);
   };
 
   return (
-    <NodeEditContext.Provider value={{ openEditModal }}>
+    <NodeEditContext.Provider value={{ openEditModal, openSaveFormModal, openLoadForm, openClearConfirm }}>
       {children}
 
       {isOpen && type === 'messageAction' && (
@@ -63,6 +115,30 @@ export const NodeEditProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             nodeId={currentNodeId}
             nodeData={currentNodeData}
             onClose={handleClose}
+        />
+      )}
+
+      {isOpen && type === 'saveForm' && (
+        <WorkflowFormModal
+          isOpen={isOpen}
+          onConfirm={handleConfirmSave}
+          onCancel={handleCloseSave}
+        />
+      )}
+
+      {isOpen && type === 'loadForm' && (
+        <LoadWorkflowModal
+          isOpen={isOpen}
+          onSelect={handleConfirmSave}
+          onClose={handleCloseSave}
+        />
+      )}
+
+      {isOpen && type == 'clearConfirm' && (
+        <DeleteConfirmationModal
+          isOpen={isOpen}
+          onConfirm={handleClearConfirm}
+          onClose={handleCloseSave}
         />
       )}
 

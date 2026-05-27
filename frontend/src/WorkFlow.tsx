@@ -20,15 +20,14 @@ import type {
 
 import WorkflowToolbar from '@/components/WorkflowToolbar';
 import { nodeTypes } from '@/nodes';
-import { getInitialWorkflow } from '@/workflow/storage';
 
 import '@xyflow/react/dist/style.css';
 import './WorkFlow.css';
 import { NodeEditProvider, useNodeEdit } from '@/context/NodeEditContext';
 
 function WorkFlowCanvas() {
-  const [nodes, setNodes] = useState<Node[]>(() => getInitialWorkflow().nodes);
-  const [edges, setEdges] = useState<Edge[]>(() => getInitialWorkflow().edges);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [edges, setEdges] = useState<Edge[]>([]);
 
   const onNodesChange = (changes: NodeChange[]) => {
     setNodes((nds) => applyNodeChanges(changes, nds));
@@ -65,9 +64,9 @@ function WorkFlowCanvas() {
       >
         <WorkflowToolbar />
         <Background
-          variant={BackgroundVariant.Dots}
-          gap={20}
-          size={1}
+          variant={BackgroundVariant.Lines}
+          gap={24}
+          lineWidth={1}
           color="var(--border)"
         />
         <Controls position="bottom-right" />

@@ -1,67 +1,101 @@
 .workflow-toolbar-panel {
-  margin: 12px;
+  margin: 14px !important;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .workflow-toolbar {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
 }
 
+/* Séparateur vertical */
+.workflow-toolbar__sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 2px;
+}
+
+/* Bouton de base */
 .workflow-toolbar__btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--bg);
+  background: transparent;
   color: var(--text-h);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: var(--shadow);
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  white-space: nowrap;
 }
 
 .workflow-toolbar__btn:hover {
   background: var(--code-bg);
+  border-color: var(--border);
 }
 
+/* Bouton primaire (Sauvegarder, Charger) */
 .workflow-toolbar__btn--primary {
-  border-color: var(--accent-border);
   background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--accent);
 }
 
 .workflow-toolbar__btn--primary:hover {
+  background: var(--accent-bg);
   border-color: var(--accent);
+  filter: brightness(1.05);
 }
 
+/* Bouton danger (Effacer) */
 .workflow-toolbar__btn--danger {
-  border-color: #fca5a5;
-  color: #b91c1c;
+  color: #dc2626;
 }
 
 .workflow-toolbar__btn--danger:hover {
-  background: #fef2f2;
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.3);
 }
 
+/* Feedback toast */
 .workflow-toolbar__feedback {
   margin: 0;
-  padding: 0.35rem 0.6rem;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 500;
+  border: 1px solid transparent;
+  animation: feedback-in 0.15s ease;
+}
+
+@keyframes feedback-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .workflow-toolbar__feedback--success {
   background: var(--accent-bg);
-  color: var(--text-h);
+  border-color: var(--accent-border);
+  color: var(--accent);
 }
 
 .workflow-toolbar__feedback--error {
-  background: #fef2f2;
-  color: #b91c1c;
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.3);
+  color: #dc2626;
 }
